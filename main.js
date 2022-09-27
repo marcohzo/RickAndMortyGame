@@ -56,6 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnGames = document.createElement("button");
     btnGames.textContent = 'Ver';
     btnGames.classList.add("btn", "btn-primary");
+    
+  
 
 
     gamesContainer.appendChild(oldGames);
@@ -159,7 +161,8 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
-          </div>`;
+          </div>`
+          ;
     // CUANDO CAMBIES EL JUGADOR, QUE BORRE EL CARROUSEL, Y VUELVA A CREARSE CON LOS DATOS DEL JUGADOR
     const buttonsContainer = document.createElement("div");
     buttonsContainer.classList.add("d-flex", "justify-content-between");
@@ -194,10 +197,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let i = 0; i < 3; i++) {
       playerOne.characters[i] =
-        characters.results[Math.round(numeroAleatorioDecimales(0, 20))];
+        characters.results[Math.floor(numeroAleatorioDecimales(19))];
       playerOne.power += playerOne.characters[i].id;
       playerTwo.characters[i] =
-        characters.results[Math.round(numeroAleatorioDecimales(0, 20))];
+        characters.results[Math.floor(numeroAleatorioDecimales(19))];
       playerTwo.power += playerTwo.characters[i].id;
     }
 
@@ -213,9 +216,9 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(playerOne);
     console.log(playerTwo);
 
-    function numeroAleatorioDecimales(min, max) {
-      var num = Math.random() * (max - min);
-      return num + min;
+    function numeroAleatorioDecimales(max) {
+      var num = Math.random() * (max);
+      return num + 1;
     }
   };
 
