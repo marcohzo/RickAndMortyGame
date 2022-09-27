@@ -1,10 +1,14 @@
 import { DOMcontainer } from './selectors.js'
 import { playerOne, playerTwo, currentPlayer, partidas } from './objects.js'
 import { fetchApi } from './utils.js';
+import { accordionItem } from './createHTML.js'
 
 let isLoading = false;
 
 export function renderizarForm() {
+    resetPlayer(playerOne);
+    resetPlayer(playerTwo);
+    resetPlayer(currentPlayer);
 
     const form = document.createElement("form");
     const formContainer = document.createElement("div");
@@ -177,70 +181,49 @@ const gameRender = async () => {
     DOMcontainer.insertBefore(habilityPower, DOMcontainer.children[2]);
 };
 
+const resetPlayer = (player) => {
+    player.name = '';
+    player.characters = [];
+    player.power = '';
+}
+
 const fight = () => {
     let winner;
-    playerOne.power === playerTwo.power && (winner = "Empate");
+    (playerOne.power === playerTwo.power) && (winner = "Empate");
     playerOne.power > playerTwo.power
         ? (winner = playerOne.name)
         : (winner = playerTwo.name);
+
+    console.log(playerOne, playerTwo);
     const fightResult = document.createElement("div");
     const btnReset = document.createElement("button");
     btnReset.classList.add("btn", "btn-primary", "mb-3", "mt-1", "px-1");
     btnReset.textContent = "volver";
     fightResult.classList.add("h2");
     fightResult.textContent = `El ganador es: ${winner}`;
-
     DOMcontainer.appendChild(fightResult);
     DOMcontainer.appendChild(btnReset);
     btnReset.addEventListener("click", () => {
-        partidas.push({ nameWinner: winner, game: [playerOne, playerTwo] });
+        partidas.push(
+            {
+                id: partidas.length + 1,
+                nameWinner: winner,
+                game: [
+                    {name: playerOne.name, characters: playerOne.characters, power: playerOne.power},
+                    {name: playerTwo.name, characters: playerTwo.characters, power: playerTwo.power}
+                ]
+            }
+        );
         loading("newGame");
     });
+
 };
 
 const seeGames = () => {
     loading()
     const accordion = document.createElement("div");
-    const accordionElement = document.createElement("div");
-    accordionElement.innerHTML = `
-    <div class="accordion" id="accordionExample">
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Accordion Item #1
-        </button>
-      </h2>
-      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingTwo">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Accordion Item #2
-        </button>
-      </h2>
-      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingThree">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Accordion Item #3
-        </button>
-      </h2>
-      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
-      </div>
-    </div>
-  </div>`;
+    accordion.classList.add("accordion");
+    partidas.map(element => accordionItem(element, accordion))
+
     DOMcontainer.appendChild(accordion)
-    accordion.appendChild(accordionElement)
 }

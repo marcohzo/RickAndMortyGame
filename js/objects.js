@@ -14,4 +14,3 @@ export const currentPlayer = {
     power: "",
 };
 export const partidas = [];
-
