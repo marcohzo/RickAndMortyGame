@@ -1,0 +1,15 @@
+.mobile{
+    width: 400px;
+}
+.mobile-borders{
+    border: 10px solid #000;
+    border-radius: 50px;
+    width: 300px;
+    min-height: 500px;
+    padding: 1rem;
+}
+:root{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
