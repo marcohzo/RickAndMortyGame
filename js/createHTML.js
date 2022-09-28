@@ -1,7 +1,6 @@
 export const accordionItem = (item, nodo) => {
-    console.log(item);
-    const accordionElement = document.createElement("div");
-    accordionElement.innerHTML = `
+  const accordionElement = document.createElement("div");
+  accordionElement.innerHTML = `
     <div class="accordion-item">
     <h2 class="accordion-header" id="game-id-${item.id}">
       <button
@@ -32,5 +31,22 @@ export const accordionItem = (item, nodo) => {
       </div>
     </div>
   </div>`;
-    nodo.appendChild(accordionElement)
+  nodo.appendChild(accordionElement)
+}
+
+export const element = (elemento, text, clases, nodo, event, func, id) => {
+  const element = document.createElement(elemento);
+  if (text || text==0) { element.textContent = text }
+  if (clases) { element.setAttribute('class', clases) }
+  if (event) { element.addEventListener(event, func) }
+  if (id) { element.setAttribute('id', id) }
+
+  nodo.appendChild(element)
+}
+
+export const nodo = (elemento, clases, event, func) => {
+  const element = document.createElement(elemento);
+  element.setAttribute('class', clases)
+  if (event) { element.addEventListener(event, func)}
+  return element
 }

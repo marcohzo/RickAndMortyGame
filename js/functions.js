@@ -1,7 +1,7 @@
 import { DOMcontainer } from './selectors.js'
 import { playerOne, playerTwo, currentPlayer, partidas } from './objects.js'
 import { fetchApi } from './utils.js';
-import { accordionItem } from './createHTML.js'
+import { accordionItem, element, nodo } from './createHTML.js'
 
 let isLoading = false;
 
@@ -10,53 +10,20 @@ export function renderizarForm() {
     resetPlayer(playerTwo);
     resetPlayer(currentPlayer);
 
-    const form = document.createElement("form");
-    const formContainer = document.createElement("div");
-    formContainer.classList.add("my-5");
+    const form = nodo('form', false, 'submit', startGame)
+    const formContainer = nodo('div', 'my-5')
+    // ========================== OLD GAMES =============================
+    const gamesContainer = nodo('div', "d-flex justify-content-between align-items-center")
+    element('div', "Partidas jugadas: ", " ", gamesContainer)
+    element('div', partidas.length, false, gamesContainer)
+    element('button', "Ver", "btn btn-primary", gamesContainer, 'click', seeGames)
 
-    const label = document.createElement("label");
-    label.classList.add("form-label");
-    label.textContent = "Jugador 1";
-    const input = document.createElement("input");
-    input.classList.add("form-control");
-    input.setAttribute("id", "formElement-1");
-
-    const label2 = document.createElement("label");
-    label2.classList.add("form-label");
-    label2.textContent = "Jugador 2";
-    const input2 = document.createElement("input");
-    input2.classList.add("form-control");
-    input2.setAttribute("id", "formElement-2");
-    // input2.setAttribute('value', 'text');
-
-    const button = document.createElement("button");
-    button.textContent = "Empezar";
-    button.classList.add("btn", "btn-primary", "mt-3");
-
-    form.addEventListener("submit", startGame);
-
-    // partidas
-    const gamesContainer = document.createElement("div");
-    gamesContainer.classList.add("d-flex", "justify-content-between", 'align-items-center');
-    const oldGames = document.createElement("div");
-    oldGames.textContent = "Partidas jugadas: ";
-    const numGames = document.createElement("div");
-    numGames.textContent = partidas.length;
-    const btnGames = document.createElement("button");
-    btnGames.textContent = 'Ver';
-    btnGames.classList.add("btn", "btn-primary");
-    btnGames.addEventListener("click", seeGames);
-
-
-    gamesContainer.appendChild(oldGames);
-    gamesContainer.appendChild(numGames);
-    gamesContainer.appendChild(btnGames);
-
-    formContainer.appendChild(label);
-    formContainer.appendChild(input);
-    formContainer.appendChild(label2);
-    formContainer.appendChild(input2);
-    formContainer.appendChild(button);
+    // ========================== PLAYERS =============================
+    element('label', 'Jugador 1', 'form-label', formContainer)
+    element('input', false, "form-control", formContainer, false, false, 'formElement-1')
+    element('label', 'Jugador 2', 'form-label', formContainer)
+    element('input', false, "form-control", formContainer, false, false, 'formElement-2')
+    element('button', "Empezar", " btn btn-primary mt-3", formContainer)
     form.appendChild(formContainer);
     form.appendChild(gamesContainer);
 
@@ -77,16 +44,14 @@ const loading = async (param) => {
     isLoading = true;
     if (isLoading) {
         DOMcontainer.innerHTML = "";
-        // DOMcontainer.removeChild(DOMcontainer.firstChild)
-        const div = document.createElement("div");
-        div.classList.add("d-flex", "mt-5", "justify-content-center");
 
-        div.innerHTML = `
+        const loader = nodo('div', "d-flex mt-5 justify-content-center")
+        
+        loader.innerHTML = `
             <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
             </div>`;
-
-        DOMcontainer.appendChild(div);
+        DOMcontainer.appendChild(loader);
     }
     setTimeout(() => {
         DOMcontainer.removeChild(DOMcontainer.firstChild);
@@ -209,8 +174,8 @@ const fight = () => {
                 id: partidas.length + 1,
                 nameWinner: winner,
                 game: [
-                    {name: playerOne.name, characters: playerOne.characters, power: playerOne.power},
-                    {name: playerTwo.name, characters: playerTwo.characters, power: playerTwo.power}
+                    { name: playerOne.name, characters: playerOne.characters, power: playerOne.power },
+                    { name: playerTwo.name, characters: playerTwo.characters, power: playerTwo.power }
                 ]
             }
         );
