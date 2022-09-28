@@ -1,7 +1,7 @@
 export const accordionItem = (item, nodo) => {
   const accordionElement = document.createElement("div");
   accordionElement.innerHTML = `
-    <div class="accordion-item">
+    <div class="accordion-item mt-2">
     <h2 class="accordion-header" id="game-id-${item.id}">
       <button
         class="accordion-button ${item.id>1&&'collapsed'}"
