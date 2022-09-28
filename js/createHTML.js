@@ -4,11 +4,11 @@ export const accordionItem = (item, nodo) => {
     <div class="accordion-item">
     <h2 class="accordion-header" id="game-id-${item.id}">
       <button
-        class="accordion-button"
+        class="accordion-button ${item.id>1&&'collapsed'}"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#game-${item.id}"
-        aria-expanded="true"
+        aria-expanded="${item.id===0?true:false}"
         aria-controls="game-${item.id}"
       >
         ${item.game[0].name} vs ${item.game[1].name}
@@ -16,7 +16,7 @@ export const accordionItem = (item, nodo) => {
     </h2>
     <div
       id="game-${item.id}"
-      class="accordion-collapse collapse show"
+      class="accordion-collapse collapse ${item.id===1&&'show'}"
       aria-labelledby="game-id-${item.id}"
       data-bs-parent="#accordionExample"
     >

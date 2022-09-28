@@ -16,7 +16,7 @@ export function renderizarForm() {
     const gamesContainer = nodo('div', "d-flex justify-content-between align-items-center")
     element('div', "Partidas jugadas: ", " ", gamesContainer)
     element('div', partidas.length, false, gamesContainer)
-    element('button', "Ver", "btn btn-primary", gamesContainer, 'click', seeGames)
+    element('button', "Ver", "btn btn-primary", gamesContainer, 'click', () => loading('see'))
 
     // ========================== PLAYERS =============================
     element('label', 'Jugador 1', 'form-label', formContainer)
@@ -56,10 +56,10 @@ const loading = async (param) => {
     setTimeout(() => {
         DOMcontainer.removeChild(DOMcontainer.firstChild);
         isLoading = false;
-        // console.log(param );
         param == "render" && gameRender();
         param == "fight" && fight();
         param == "newGame" && renderizarForm();
+        param == "see" && seeGames();
     }, 1000);
 };
 
@@ -139,17 +139,8 @@ const fight = () => {
     playerOne.power > playerTwo.power
         ? (winner = playerOne.name)
         : (winner = playerTwo.name);
-
-    console.log(playerOne, playerTwo);
-    const fightResult = document.createElement("div");
-    const btnReset = document.createElement("button");
-    btnReset.classList.add("btn", "btn-primary", "mb-3", "mt-1", "px-1");
-    btnReset.textContent = "volver";
-    fightResult.classList.add("h2");
-    fightResult.textContent = `El ganador es: ${winner}`;
-    DOMcontainer.appendChild(fightResult);
-    DOMcontainer.appendChild(btnReset);
-    btnReset.addEventListener("click", () => {
+    element('div', `El ganador es: ${winner}`, "h3", DOMcontainer)
+    element('button', "Volver", "btn btn-primary mb-3 mt-1 px-1", DOMcontainer, 'click', () => {
         partidas.push(
             {
                 id: partidas.length + 1,
@@ -161,15 +152,20 @@ const fight = () => {
             }
         );
         loading("newGame");
-    });
+    })
 
 };
 
 const seeGames = () => {
-    loading()
-    const accordion = document.createElement("div");
-    accordion.classList.add("accordion");
-    partidas.map(element => accordionItem(element, accordion))
-
+    const accordion = nodo('div', 'accordion')
+    if (partidas.length > 0) {
+        partidas.map(element => accordionItem(element, accordion))
+    } else {
+        element('div', 'No hay partidas', 'h4',accordion)
+    }
     DOMcontainer.appendChild(accordion)
+
+    element('button', "Volver", "btn btn-primary mb-3 mt-1 px-1", DOMcontainer, 'click', () => {
+        loading("newGame");
+    })
 }
