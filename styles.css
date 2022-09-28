@@ -16,10 +16,10 @@ body {
   border: 3px solid rgb(85, 35, 135);
   border-radius: 0.735vh;
   box-shadow: 0 2px 0 5px var(--case-color);
-  height: 63.5vh;
-  margin: 15vh auto 15vh auto;
+  height: 550px;
+  margin: 1rem auto;
   position: relative;
-  width: 36.5vh;
+  width: 270px;
 }
 
 /*Case*/
@@ -51,4 +51,10 @@ body {
   right: 0;
   top: 49.765%;
   transform: rotate(-65.5deg) skewX(43.5deg) scaleX(1.936);
+}
+.carousel-item {
+  height: 200px;
+}
+.game-img {
+  width: 100%;
 }

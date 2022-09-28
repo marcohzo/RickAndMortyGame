@@ -46,7 +46,7 @@ const loading = async (param) => {
         DOMcontainer.innerHTML = "";
 
         const loader = nodo('div', "d-flex mt-5 justify-content-center")
-        
+
         loader.innerHTML = `
             <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -88,28 +88,19 @@ const gameRender = async () => {
     };
     await checkPlayer();
 
-    // CREAR OBJETO CURRENT PLAYER REFERENCIADO AL JUGADOR
-    const characters = document.createElement("div");
-    characters.classList.add("h2");
-    characters.textContent = `Personajes`;
-    const carrousel = document.createElement("div");
-    carrousel.classList.add("d-flex", "align-items-center", "mt-3");
-    const playerName = document.createElement("div");
-    playerName.classList.add("h2");
-    playerName.textContent = `Jugador: ${currentPlayer.name}`;
-    const habilityPower = document.createElement("div");
-    habilityPower.classList.add("h4");
-    habilityPower.textContent = `Poder de habilidad: ${currentPlayer.power}`;
+    const characters = nodo('div', "h2", false, false, 'Personajes')
+    const carrousel = nodo('div', "d-flex align-items-center mt-3", false, false)
     carrousel.innerHTML = `
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src=${currentPlayer.characters[0].image} class="d-block w-100 " alt="...">
+      <div class="carousel-item active text-center">
+        <img src=${currentPlayer.characters[0].image} class="d-block game-img" alt="...">
       </div>
-      <div class="carousel-item active">
-        <img src=${currentPlayer.characters[1].image} class="d-block w-100 " alt="...">
-      </div><div class="carousel-item active">
-      <img src=${currentPlayer.characters[2].image} class="d-block w-100 " alt="...">
+      <div class="carousel-item active text-center">
+        <img src=${currentPlayer.characters[1].image} class="d-block game-img" alt="...">
+      </div>
+      <div class="carousel-item active text-center">
+      <img src=${currentPlayer.characters[2].image} class="d-block game-img" alt="...">
     </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -122,24 +113,14 @@ const gameRender = async () => {
             </button>
           </div>`
         ;
-    // CUANDO CAMBIES EL JUGADOR, QUE BORRE EL CARROUSEL, Y VUELVA A CREARSE CON LOS DATOS DEL JUGADOR
-    const buttonsContainer = document.createElement("div");
-    buttonsContainer.classList.add("d-flex", "justify-content-between");
-
-    const changePlayer = document.createElement("button");
-    changePlayer.classList.add("btn", "btn-primary", "mb-3", "mt-1", "px-1");
-    changePlayer.textContent = "Cambiar jugador";
-    changePlayer.addEventListener("click", changePlaylayerSelected);
-
-    const fightButton = document.createElement("button");
-    fightButton.classList.add("btn", "btn-danger", "mb-3", "mt-1", "px-1");
-    fightButton.textContent = "Pelear";
-    fightButton.addEventListener("click", () => loading("fight"));
+    const playerName = nodo('div', "h3", false, false, `Jugador: ${currentPlayer.name}`)
+    const habilityPower = nodo('div', "h4", false, false, `Poder de habilidad: ${currentPlayer.power}`)
+    const buttonsContainer = nodo('div', "d-flex justify-content-between")
+    element('button', "Cambiar jugador", "btn btn-primary mb-3 mt-1 px-1", buttonsContainer, 'click', changePlaylayerSelected)
+    element('button', "Pelear", "btn btn-danger mb-3 mt-1 px-1", buttonsContainer, 'click', () => loading("fight"))
 
     DOMcontainer.insertBefore(characters, DOMcontainer.children[0]);
     DOMcontainer.appendChild(carrousel);
-    buttonsContainer.appendChild(changePlayer);
-    buttonsContainer.appendChild(fightButton);
     DOMcontainer.appendChild(buttonsContainer);
 
     DOMcontainer.insertBefore(playerName, DOMcontainer.children[2]);

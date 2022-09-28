@@ -44,9 +44,10 @@ export const element = (elemento, text, clases, nodo, event, func, id) => {
   nodo.appendChild(element)
 }
 
-export const nodo = (elemento, clases, event, func) => {
+export const nodo = (elemento, clases, event, func, text) => {
   const element = document.createElement(elemento);
   element.setAttribute('class', clases)
+  if (text || text==0) { element.textContent = text }
   if (event) { element.addEventListener(event, func)}
   return element
 }
